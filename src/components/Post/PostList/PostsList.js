@@ -1,7 +1,8 @@
 import {  Alert } from 'antd';
 import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
-import { doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
+import { v4 } from 'uuid';
 
 import { db } from '../../../firebase';
 import { PostItem } from '../PostItem/PostItem';
@@ -21,17 +22,13 @@ export const PostsList = () => {
         
         try {
             setLoading(true);
-            const docRef = doc(db, '1', 'bG1yt5hBMi2hPFcYjCWi');
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                console.log('Document data:', typeof(docSnap.data));
-                setPost(docSnap.data().recipes);
-                console.log(post, 'post');
-            } else {
-                console.log('No such document!');
-                setError(true);
-            }
+            const querySnapshot = await getDocs(collection(db, '1'));
+            querySnapshot.forEach((doc) => {
+                let el = doc.data().recipes;
+                setPost(post => [...post, el] );
+                
+                console.log(doc.id, '=>', doc.data().recipes);
+            });
             setLoading(false);
         } catch (e) {
             console.log(e, 'ERROR');
@@ -39,12 +36,11 @@ export const PostsList = () => {
             setLoading(false);
         }
     };
-    const posts = post;
 
     const postlist = post && (
         <>
-            {[posts].map((el) => (
-                <div className={classes['post_item']} key={el.id} >
+            {post.map((el) => (
+                <div className={classes['post_item']} key={v4()} >
                     <PostItem post={el} />
                 </div>
             ))}

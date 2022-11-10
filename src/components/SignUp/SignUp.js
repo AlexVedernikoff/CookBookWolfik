@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'antd';
@@ -37,7 +36,7 @@ function SignUp() {
         dispath(errorNull());
     };
 
-    const errorAlert = error && <Alert description={error} type="error" showIcon closable onClose={() => onCloseMessage()} />;
+    const errorAlert = error && <Alert description= "Something has gone wrong" type="error" showIcon closable onClose={() => onCloseMessage()} />;
     const successAlert = userData && <SuccessMessage description="Registration was successful!" closable={false}  />;
     const signUpForm = !successAlert && <FormSignUp userRegistration={userRegistration} />;
     return (

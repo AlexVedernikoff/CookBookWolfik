@@ -1,4 +1,3 @@
-
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'antd';
 import { useEffect } from 'react';
@@ -46,7 +45,7 @@ function SignIn() {
         dispath(errorNull());
     };
     
-    const errorAlert = error && <Alert description={error} type="error" showIcon closable onClose={() => onCloseMessage()} />;
+    const errorAlert = error && <Alert description="Something has gone wrong" type="error" showIcon closable onClose={() => onCloseMessage()} />;
     const successAlert = userData && <SuccessMessage description="Authorization was successful!" closable={false} />;
     const signInForm = !successAlert && <FormSignIn userLogin={userLogin} />;
 

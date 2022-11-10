@@ -1,20 +1,67 @@
 /* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux/es/exports';
-import { useState} from 'react';
+import { useState, useEffect } from 'react';
+import { doc, increment, updateDoc, onSnapshot } from 'firebase/firestore';
+import { Tag } from 'antd';
 
+import { db } from '../../../firebase';
 import { ArticleController } from '../../ArticleController/ArticleController';
 import nolike from '../../../img/nolike.svg';
+import likeic from '../../../img/like.svg';
 
 import classes from './PostItem.module.scss';
 
 export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
-    const { name, description, id, likes, difficulty } = post;
+    const { name, description, id, likes, favorite, difficulty, ingredients } = post;
+    const ingredientsList = ingredients.map((el, i) => <Tag className='post_tag' key={i}> {el} </Tag>);
     const paramId = `/articles/${id}`;
+    const recipesRef = doc(db, '1', 'bG1yt5hBMi2hPFcYjCWi');
+    const useStateUser = () => {
+        const stateUserst = useSelector((state) => state.user);
+        return stateUserst;
+    };
 
+    const { userData } = useStateUser();
+
+    const [like, setLike] = useState(favorite);
     const [likeIcon, setLikeIcon] = useState(nolike);
+    const [likeCount, setLikeCount] = useState(likes);
     const [isLikeDsabled, setLikeDsabled] = useState(true);
 
+    const unsub = onSnapshot(doc(db, '1', 'bG1yt5hBMi2hPFcYjCWi'), (doc) => {
+        setLikeCount(doc.data().recipes.likes);
+    });
+
+    useEffect(() => {
+        if (post.favorite) {
+            setLike(true);
+            setLikeIcon(likeic);
+        }
+
+        if (userData) {
+            setLikeDsabled(false);
+        }
+        if (!userData) {
+            setLikeIcon(nolike);
+            setLikeDsabled(true);
+        }
+    }, [userData, post.favorite]);
+
+    const onlikeClick = async () => {
+        if (!like) {
+            await updateDoc(recipesRef, { 'recipes.favorite': true }),
+            await updateDoc(recipesRef, { 'recipes.likes': increment(1) }),
+            setLike(true);
+            setLikeIcon(likeic);
+        }
+        else {
+            await updateDoc(recipesRef, { 'recipes.favorite': false }),
+            await updateDoc(recipesRef, { 'recipes.likes': increment(-1) }),
+            setLike(false);
+            setLikeIcon(nolike);
+        }
+    };
     return (
         <>
             <div className={classes['post_title']}>
@@ -25,15 +72,15 @@ export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
                     <button
                         type="button"
                         className={classes['button-likes']}
-                        onClick={console.log('click')}
+                        onClick={onlikeClick}
                         disabled={isLikeDsabled}
                     >
-                        <img className={classes['post_like']} src={likeIcon} alt='like' />{likes}
+                        <img className={classes['post_like']} src={likeIcon} alt='like' />{likeCount}
                     </button>
                 </div>
             </div>
             <h4 className={classes['post_difficulty']}>{difficulty}
-                <div className={classes['person_ingredients']}>ingrediens</div>
+                <div className={classes['person_ingredients']}>{ingredientsList}</div>
             </h4>
             <p className={classes['post_description']}>
                 {description}

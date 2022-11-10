@@ -3,13 +3,13 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID,
-    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+    apiKey: 'AIzaSyDcalcuueAsjysMwe6pkkRR84BTxDj0CC4',
+    authDomain: 'cookbook-4d702.firebaseapp.com',
+    projectId: 'cookbook-4d702',
+    storageBucket: 'cookbook-4d702.appspot.com',
+    messagingSenderId: '207669092652',
+    appId: '1:207669092652:web:79e38d9a55d03a8e7ccc89',
+    measurementId: 'G-61KC33Q828'
 };
 
 const app = initializeApp(firebaseConfig);

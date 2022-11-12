@@ -35,13 +35,9 @@
     line-height: 28px;
 }
 
-.post_tags {
-    grid-area: tag;
-}
-
 .button-likes{
     border: none;
-    background-color: #fff;
+
 }
 
 .post_photo {
@@ -52,7 +48,6 @@
 }
 
 .person_ingredients {
-    grid-area: date;
     font-family: 'Inter';
     font-weight: 400;
     font-size: 12px;

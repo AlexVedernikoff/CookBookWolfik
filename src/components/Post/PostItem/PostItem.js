@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux/es/exports';
 import { useState, useEffect } from 'react';
@@ -13,10 +12,27 @@ import likeic from '../../../img/like.svg';
 import classes from './PostItem.module.scss';
 
 export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
-    const { name, description, id, likes, favorite, difficulty, ingredients } = post;
-    const ingredientsList = ingredients.map((el, i) => <Tag className='post_tag' key={i}> {el} </Tag>);
+    console.log('post = ', post);
+    const {
+        name,
+        description,
+        id,
+        likes,
+        favorite,
+        difficulty,
+        ingredients,
+        elId
+    } = post;
+
+    console.log('elId_PostItem = ', elId);
+    const ingredientsList = ingredients.map((el, i) => (
+        <Tag className="post_tag" key={i}>
+            {' '}
+            {el}{' '}
+        </Tag>
+    ));
     const paramId = `/articles/${id}`;
-    const recipesRef = doc(db, '1', 'bG1yt5hBMi2hPFcYjCWi');
+    const recipesRef = doc(db, '1', elId);
     const useStateUser = () => {
         const stateUserst = useSelector((state) => state.user);
         return stateUserst;
@@ -29,7 +45,8 @@ export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
     const [likeCount, setLikeCount] = useState(likes);
     const [isLikeDsabled, setLikeDsabled] = useState(true);
 
-    const unsub = onSnapshot(doc(db, '1', 'bG1yt5hBMi2hPFcYjCWi'), (doc) => {
+    // eslint-disable-next-line no-unused-vars
+    const unsub = onSnapshot(doc(db, '1', elId), (doc) => {
         setLikeCount(doc.data().recipes.likes);
     });
 
@@ -54,8 +71,7 @@ export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
             await updateDoc(recipesRef, { 'recipes.likes': increment(1) }),
             setLike(true);
             setLikeIcon(likeic);
-        }
-        else {
+        } else {
             await updateDoc(recipesRef, { 'recipes.favorite': false }),
             await updateDoc(recipesRef, { 'recipes.likes': increment(-1) }),
             setLike(false);
@@ -65,7 +81,10 @@ export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
     return (
         <>
             <div className={classes['post_title']}>
-                <Link to={paramId} className={classes['title_item']}>
+                <Link
+                    to={paramId}
+                    className={classes['title_item']}
+                >
                     {name}
                 </Link>
                 <div className={classes['like_count']}>
@@ -75,17 +94,20 @@ export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
                         onClick={onlikeClick}
                         disabled={isLikeDsabled}
                     >
-                        <img className={classes['post_like']} src={likeIcon} alt='like' />{likeCount}
+                        <img className={classes['post_like']} src={likeIcon} alt="like" />
+                        {likeCount}
                     </button>
                 </div>
             </div>
-            <h4 className={classes['post_difficulty']}>{difficulty}
+            <h4 className={classes['post_difficulty']}>
+                {difficulty}
                 <div className={classes['person_ingredients']}>{ingredientsList}</div>
             </h4>
-            <p className={classes['post_description']}>
-                {description}
-            </p>
-            <ArticleController controllerFlag={controllerFlag} confirmDeletion={confirmDeletion} />
+            <p className={classes['post_description']}>{description}</p>
+            <ArticleController
+                controllerFlag={controllerFlag}
+                confirmDeletion={confirmDeletion}
+            />
         </>
     );
 };

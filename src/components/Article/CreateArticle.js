@@ -20,7 +20,7 @@ function CreateArticle() {
                 difficulty: val.difficulty,
                 likes: 0,
                 favorite: false,
-                ingredients: val.tagList.map((el) => el.trim()).filter((el) => el && el !== ''),
+                ingredients: val.ingredients.map((el) => el.trim()).filter((el) => el && el !== ''),
                 image: val.image || '',
             }
         };

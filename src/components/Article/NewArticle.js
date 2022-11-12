@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import classes from './NewArticle.module.scss';
 
-function NewArticle({ title, transferData, articleTitle, description, articleBody, tagList }) {
+function NewArticle({ title, transferData, articleTitle, description, articleBody, ingredients }) {
 
     const newFilds = [
         {
@@ -19,8 +19,8 @@ function NewArticle({ title, transferData, articleTitle, description, articleBod
             value: articleBody || null,
         },
         {
-            name: ['tagList'],
-            value: tagList && tagList.length ? tagList : [''],
+            name: ['ingredients'],
+            value: ingredients && ingredients.length ? ingredients : [''],
         },
     ];
 
@@ -28,7 +28,7 @@ function NewArticle({ title, transferData, articleTitle, description, articleBod
 
     useEffect(() => {
         setFields(newFilds);
-    }, [title, description, articleTitle, articleBody, tagList]);
+    }, [title, description, articleTitle, articleBody, ingredients]);
 
     return (
         <div className={classes['list__wrapper']}>
@@ -106,19 +106,24 @@ function NewArticle({ title, transferData, articleTitle, description, articleBod
 
                 <div className={classes['form-item-list__wrapper']}>
                     <Form.List
-                        name="tagList"
+                        name="ingredients"
                         label="Ингредиенты"
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}>
+                    >
                         {(fieldsList, { add, remove }) => (
                             <>
                                 {fieldsList.map((field, index) => (
-                                    <Form.Item label={index === 0 ? 'Игредиенты' : ''}  className={classes['ant-form-item']} key={field.key}>
-                                        <Form.Item {...field} noStyle>
-                                            <Input placeholder="Ingredient" style={{ width: '40%' }} />
+                                    <Form.Item
+                                        label={index === 0 ? 'Игредиенты' : ''}
+                                        className={classes['ant-form-item']}
+                                        key={field.key}>
+                                        <Form.Item {...field} noStyle
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                },
+                                            ]}>
+                                            <Input placeholder="Ingredient" style={{ width: '40%' }}
+                                            />
                                         </Form.Item>
 
                                         {fieldsList.length > 1 ? (

@@ -4,9 +4,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     email: null,
     token: null,
-    id: null,
     userData: null,
     error: null,
+    posts: []
 };
 
 const userSlice = createSlice({
@@ -40,9 +40,15 @@ const userSlice = createSlice({
         errorNull(state) {
             state.error = null;
         },
+        getPosts(state, action) {
+            state.posts = action.payload.posts;
+        },
+        sortPosts(state, action) {
+            state.posts = action.payload.posts;
+        }
     },
 });
 
-export const { setUser, removeUser, logOutUser, errorNull, errorFail } = userSlice.actions;
+export const { setUser, removeUser, logOutUser, errorNull, errorFail, getPosts, sortPosts } = userSlice.actions;
 
 export default userSlice.reducer;

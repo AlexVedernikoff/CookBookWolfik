@@ -43,16 +43,14 @@ function App() {
                         path={`${articleRoute}${idRoute}`}
                         exact
                         render={({ match }) => {
-                            console.log('match.params = ', match.params);
-                            console.log('match.params.slug = ', match.params.elId);
-                            const id = match.params.elId;
+                            const id = match.params;
                             return <PostFull itemId={id} />;
                         }}
                     />
                     <Route path={signInRoute} component={SignIn} exact />
                     <Route path={signUpRoute} component={SignUp} exact />
                     <Route path={newArticleRoute} exact>{userData ? <CreateArticle /> : <Redirect to={'/sign-in'} />} </Route>
-                    <Route path={`${articleRoute}${idRoute}${editRoute}`} component={EditArticle} exact />
+                    <Route path={`${articleRoute}${idRoute}${editRoute}`} exact >{userData ? <EditArticle /> : <Redirect to={'/sign-in'} />} </Route>
                 </main>
             </div>
         </Router>

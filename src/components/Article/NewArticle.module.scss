@@ -39,15 +39,20 @@
     position: relative;
 
 }
-
-.form-item-list__add-button {
-    position: absolute;
-    bottom: 37px;
-    right: 233px;
+.form-item-list__del-button {
+    font-size: 16px;
+    line-height: 24px;
+    color: #F5222D;
+    background-color: #fff;
+    height: 40px;
+    border: 1px solid #F5222D;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0 36px;
+    margin-left: 18px;
 }
 
 .form-item-list__add-button button {
-
     border: 1px solid #1890FF;
     border-radius: 4px;
     font-size: 16px;
@@ -58,19 +63,6 @@
     color: #1890FF;
 }
 
-.form-item-list__del-button {
-    font-size: 16px;
-    line-height: 24px;
-    color: #F5222D;
-    background-color: #fff;
-    height: 40px;
-    border: 1px solid #F5222D;
-    box-sizing: border-box;
-    border-radius: 4px;
-
-    padding: 0 36px;
-    margin-left: 18px;
-}
 
 .form-item-list__send-button {
     width: 40%;

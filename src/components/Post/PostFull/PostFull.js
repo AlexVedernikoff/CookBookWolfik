@@ -1,27 +1,22 @@
 import { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 import { Alert } from 'antd';
 import { TailSpin } from 'react-loader-spinner';
-import { useParams } from 'react-router-dom';
+
 import { ArticleController } from '../../ArticleController/ArticleController';
-import { db } from '../../../firebase';
 
 import classes from './PostFull.module.scss';
 
 export const PostFull = ({ itemId }) => {
-    const r = useParams();
-    console.log(r, 'USEPARAM');
-    
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [post, setPost] = useState([]);
     const [controllerShow, setControllerShow] = useState(false);
     const useStateUser = () => {
         const stateUserst = useSelector((state) => state.user);
         return stateUserst;
     };
-    const { userData } = useStateUser();
+    const { userData, posts } = useStateUser();
 
     useEffect(() => {
         postsUpdate();
@@ -30,24 +25,18 @@ export const PostFull = ({ itemId }) => {
     const postsUpdate = async () => {
         try {
             setLoading(true);
-            const querySnapshot = await getDocs(collection(db, '1'));
-            querySnapshot.forEach((doc) => {
-                let el = doc.data().recipes;
-                setPost((post) => [...post, el]);
-            });
             if (userData) {
                 setControllerShow(true);
             }
             setLoading(false);
         } catch (e) {
-            console.log(e, 'ERROR');
             setError(true);
             setLoading(false);
         }
     };
 
-    const receiptCard = post.filter((el) => {
-        return el.elId === itemId;
+    const receiptCard = posts.filter((el) => {
+        return el.elId == itemId.id;
     })[0];
 
     return (

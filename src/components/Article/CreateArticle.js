@@ -1,19 +1,21 @@
 import { useState } from 'react';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, connectFirestoreEmulator } from 'firebase/firestore';
 import { v4 } from 'uuid';
-
+import { useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { SuccessMessage } from '../SuccessMessage/SuccessMessage';
 
 import NewArticle from './NewArticle';
 
 function CreateArticle() {
+    console.log(useParams(), 'USEPARAM')
+    console.log('1')
     const [isSuccessAlert, setSuccessAlert] = useState(false);
 
     const createArticle = async (val) => {
         const docData = {
             recipes: {
-                id: v4(),
+                // id: v4(),
                 name: val.title.trim(),
                 description: val.description,
                 body: val.body,

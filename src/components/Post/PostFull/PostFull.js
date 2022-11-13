@@ -1,16 +1,27 @@
 import { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
-
+import { useSelector } from 'react-redux';
+import { Alert } from 'antd';
+import { TailSpin } from 'react-loader-spinner';
+import { useParams } from 'react-router-dom';
+import { ArticleController } from '../../ArticleController/ArticleController';
 import { db } from '../../../firebase';
 
 import classes from './PostFull.module.scss';
 
 export const PostFull = ({ itemId }) => {
+    const r = useParams();
+    console.log(r, 'USEPARAM');
+    
     const [loading, setLoading] = useState(true);
-    // const [error, setError] = useState(false);
+    const [error, setError] = useState(false);
     const [post, setPost] = useState([]);
-    console.log('itemId = ', itemId);
-    console.log('Мы здесь!');
+    const [controllerShow, setControllerShow] = useState(false);
+    const useStateUser = () => {
+        const stateUserst = useSelector((state) => state.user);
+        return stateUserst;
+    };
+    const { userData } = useStateUser();
 
     useEffect(() => {
         postsUpdate();
@@ -23,25 +34,32 @@ export const PostFull = ({ itemId }) => {
             querySnapshot.forEach((doc) => {
                 let el = doc.data().recipes;
                 setPost((post) => [...post, el]);
-
-                console.log(doc.id, '=>', doc.data().recipes);
             });
+            if (userData) {
+                setControllerShow(true);
+            }
             setLoading(false);
         } catch (e) {
             console.log(e, 'ERROR');
-            // setError(true);
+            setError(true);
             setLoading(false);
         }
     };
 
     const receiptCard = post.filter((el) => {
-        return el.id === itemId;
+        return el.elId === itemId;
     })[0];
-
-    console.log('receiptCard ', receiptCard);
 
     return (
         <div className={classes['wrapper']}>
+            {error ? (
+                <Alert
+                    className="alert"
+                    message="Something has gone wrong"
+                    type="error"
+                    showIcon
+                />
+            ) : null}
             {!loading ? (
                 <>
                     <div className={classes['image-container']}>
@@ -78,14 +96,14 @@ export const PostFull = ({ itemId }) => {
                             <div>Оценили {receiptCard.likes}</div>
                             <div> {receiptCard.difficulty}</div>
                             <div>
-                                <button type="button" className="user-data__button">
-                                    Редактировать рецерт
-                                </button>
+                                <ArticleController
+                                    controllerFlag={controllerShow}
+                                />
                             </div>
                         </div>
                     </div>
                 </>
-            ) : null}
+            ) : <TailSpin color="#00BFFF" height={80} width={80} />}
         </div>
     );
 };

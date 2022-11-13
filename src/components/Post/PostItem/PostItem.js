@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux/es/exports';
 import { useState, useEffect } from 'react';
@@ -5,13 +6,12 @@ import { doc, increment, updateDoc, onSnapshot } from 'firebase/firestore';
 import { Tag } from 'antd';
 
 import { db } from '../../../firebase';
-import { ArticleController } from '../../ArticleController/ArticleController';
 import nolike from '../../../img/nolike.svg';
 import likeic from '../../../img/like.svg';
 
 import classes from './PostItem.module.scss';
 
-export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
+export const PostItem = ({ post }) => {
     console.log('post = ', post);
     const {
         name,
@@ -21,7 +21,8 @@ export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
         favorite,
         difficulty,
         ingredients,
-        elId
+        elId,
+        image
     } = post;
 
     console.log('elId_PostItem = ', elId);
@@ -31,7 +32,7 @@ export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
             {el}{' '}
         </Tag>
     ));
-    const paramId = `/articles/${id}`;
+    const paramId = `/articles/${elId}`;
     const recipesRef = doc(db, '1', elId);
     const useStateUser = () => {
         const stateUserst = useSelector((state) => state.user);
@@ -45,7 +46,6 @@ export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
     const [likeCount, setLikeCount] = useState(likes);
     const [isLikeDsabled, setLikeDsabled] = useState(true);
 
-    // eslint-disable-next-line no-unused-vars
     const unsub = onSnapshot(doc(db, '1', elId), (doc) => {
         setLikeCount(doc.data().recipes.likes);
     });
@@ -65,7 +65,8 @@ export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
         }
     }, [userData, post.favorite]);
 
-    const onlikeClick = async () => {
+    const onlikeClick = async (event) => {
+        console.log('event.target = ', event.currentTarget);
         if (!like) {
             await updateDoc(recipesRef, { 'recipes.favorite': true }),
             await updateDoc(recipesRef, { 'recipes.likes': increment(1) }),
@@ -80,34 +81,44 @@ export const PostItem = ({ post, controllerFlag, confirmDeletion }) => {
     };
     return (
         <>
-            <div className={classes['post_title']}>
-                <Link
-                    to={paramId}
-                    className={classes['title_item']}
-                >
-                    {name}
-                </Link>
-                <div className={classes['like_count']}>
-                    <button
-                        type="button"
-                        className={classes['button-likes']}
-                        onClick={onlikeClick}
-                        disabled={isLikeDsabled}
-                    >
-                        <img className={classes['post_like']} src={likeIcon} alt="like" />
-                        {likeCount}
-                    </button>
+            <li className={classes['recipeCard']}>
+                <div
+                    className={classes['image__container']}
+                    style={{ backgroundImage: `url(${image})` }}
+                ></div>
+                <div className={classes['recipeCard__information']}>
+                    <div className={classes['recipeCard__header']}>
+                        <div>
+                            <Link to={paramId} className={classes['title_item']}>
+                                {name}
+                            </Link>
+                        </div>
+                    </div>
+                    <div className={classes['recipeCard__description']}>{description}</div>
+                    <div className={classes['recipeCard__prefixText']}>
+                        Вам понадобится:
+                    </div>
+                    <div className={classes['recipeCard__ingredients']}>{ingredients}</div>
+                    <div className={classes['recipeCard__footer']}>
+                        <div className={classes['recipeCard__likes']}>
+                            <button
+                                type="button"
+                                className={classes['button-likes']}
+                                onClick={onlikeClick}
+                                disabled={isLikeDsabled}
+                            >
+                                <img
+                                    className={classes['post_like']}
+                                    src={likeIcon}
+                                    alt="like"
+                                />
+                            </button>
+                            {likeCount}
+                        </div>
+                        <div className={classes['recipeCard__difficulty']}>{difficulty}</div>
+                    </div>
                 </div>
-            </div>
-            <h4 className={classes['post_difficulty']}>
-                {difficulty}
-                <div className={classes['person_ingredients']}>{ingredientsList}</div>
-            </h4>
-            <p className={classes['post_description']}>{description}</p>
-            <ArticleController
-                controllerFlag={controllerFlag}
-                confirmDeletion={confirmDeletion}
-            />
+            </li>
         </>
     );
 };

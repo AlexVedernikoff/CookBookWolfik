@@ -1,13 +1,32 @@
-.sorts {
-    width: 500px;
-    height: 50px;
-    background-color: gray;
-    margin: 0 auto;
+.filters {
+    display: flex;
     align-items: center;
-    border: 1px solid wheat;
+    width: 502px;
+    height: 50px;
+    font-size: 15px;
+    border: 1px solid #DFE5EC;
     border-radius: 5px;
     cursor: pointer;
-    display: flex;
-    font-size: 15px;
-    height: 50px;
+    user-select: none;
+}
+
+.filters__filter {
+    background-color: #fff;
+    border: 1px solid #DFE5EC;
+    text-align: center;
+    width: 34%;
+    line-height: 50px;
+
+}
+
+.filters__filter:hover {
+    background-color: #2196F3;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.filter__clicked {
+    background-color: #2196F3;
+    color: #fff;
+    border-radius: 5px;
 }

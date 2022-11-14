@@ -7,7 +7,7 @@ const initialState = {
     error: null,
     posts: [],
     search: [],
-    favorite: {},
+    favoritesArray: {},
     searchResult:'',
 };
 
@@ -54,7 +54,7 @@ const userSlice = createSlice({
             state.searchResult = action.payload.searchResult;
         },
         setFavorite(state, action) {
-            state.favorite = action.payload.favorite;
+            state.favoritesArray = action.payload.favoritesArray;
         }
     },
 });

@@ -9,37 +9,52 @@ const SortRecipes = () => {
         const stateUserst = useSelector(state => state.user);
         return stateUserst;
     };
-    const { posts } = useStateUser();
+    const { posts, search } = useStateUser();
     const dispatch = useDispatch();
 
     const onSortName = () => {
-        dispatch(sortPosts({
-            posts: [...posts].sort((prev, next) => {
-                if (prev.name < next.name) return -1;
-                if (prev.name < next.name) return 1;
-            })
-        }));
+        if (search && search.length > 0) {
+            dispatch(sortPosts({
+                search: [...search].sort((prev, next) => {
+                    if (prev.name < next.name) return -1;
+                    if (prev.name < next.name) return 1;
+                }),
+                posts: posts,
+            }));
+        } else {
+            dispatch(sortPosts({
+                posts: [...posts].sort((prev, next) => {
+                    if (prev.name < next.name) return -1;
+                    if (prev.name < next.name) return 1;
+                })
+            }));
+        }
+
     };
 
     const onSortPopular = () => {
+        if (search && search.length > 0) {
+            dispatch(sortPosts({
+                search: [...search].sort((prev, next) => next.likes - prev.likes),
+                posts: posts,
+            }));
+        } else {
+            dispatch(sortPosts({
+                posts: [...posts].sort((prev, next) => next.likes - prev.likes),
+                search: search,
+            }));
+        }
 
-        // let newArr = [...posts].sort((prev, next) => next.likes - prev.likes);
-        // console.log(posts, 'POSTSORT');
-        // setPost(newArr);
-        dispatch(sortPosts({
-            posts: [...posts].sort((prev, next) => next.likes - prev.likes)
-        })
-        );
     };
     return (
-        <>
-            <button className={classes['filters']} onClick={onSortName} >
+        <div className={classes['container']}>
+            <button className={classes['sorts']} onClick={onSortName} >
                 По названию
             </button>
-            <button className={classes['filters']} onClick={onSortPopular} >
+            <button className={classes['sorts']} onClick={onSortPopular} >
                 По популярности
             </button>
-        </>
+        </div>
     );
 
 

@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'antd';
-import { useEffect } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 import { setUser, errorNull, errorFail } from '../../store/userSlice';
@@ -15,15 +14,13 @@ function SignIn() {
 
         signInWithEmailAndPassword(auth, val.email.trim(), val.password.trim())
             .then(({ user }) => {
-                console.log(user);
                 dispath(setUser({
                     email: user.email,
                     id: user.uid,
                     token: user.accessToken,
                 }));
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
                 dispath(errorFail());
             });
     };
@@ -34,12 +31,6 @@ function SignIn() {
     };
     const dispath = useDispatch();
     const { error, userData } = useStateUser();
-
-    useEffect(() => {
-        if (userData && userData !== null) {
-            localStorage.setItem('token', JSON.stringify(userData.token));
-        }
-    }, [userData]);
 
     const onCloseMessage = () => {
         dispath(errorNull());

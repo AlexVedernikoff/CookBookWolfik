@@ -4,9 +4,10 @@ import { TailSpin } from 'react-loader-spinner';
 import { collection, getDocs } from 'firebase/firestore';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { setFavorite , getPosts } from '../../../store/userSlice';
 import { db } from '../../../firebase';
 import { PostItem } from '../PostItem/PostItem';
-import { getPosts } from '../../../store/userSlice';
+
 
 import classes from './PostList.module.scss';
 
@@ -19,13 +20,16 @@ export const PostsList = () => {
         return stateUserst;
     };
     const { posts, search, searchResult } = useStateUser();
+
     const dispath = useDispatch();
+
     useEffect(() => {
         postsUpdate();
     }, []);
 
     const postsUpdate = async () => {
         let postsArray = [];
+        let favoritesArray = {};
         try {
             setLoading(true);
             const querySnapshot = await getDocs(collection(db, '1'));
@@ -33,10 +37,19 @@ export const PostsList = () => {
                 let el = doc.data().recipes;
                 el.elId = doc.id;
                 postsArray.push(el);
+                favoritesArray[el.elId] = el.favorite;
             });
-            dispath(getPosts({
-                posts: postsArray
-            }));
+            dispath(
+                getPosts({
+                    posts: postsArray
+                })
+            );
+            dispath(
+                setFavorite({
+                    favoritesArray: favoritesArray
+                })
+            );
+
             setLoading(false);
         } catch (e) {
             console.log(e, 'ERROR');
@@ -44,19 +57,16 @@ export const PostsList = () => {
             setLoading(false);
         }
     };
+
     let result = search && search.length ? search : posts;
     if (searchResult) {
         result = [];
     }
 
     const postlist = posts && (
-        <>
-            {result.map((el) => (
-                < >
-                    <PostItem post={el} key={el.elId} />
-                </>
-            ))}
-        </>
+        result.map((el) => (
+            <PostItem post={el} key={el.elId} />
+        ))
     );
 
     return (

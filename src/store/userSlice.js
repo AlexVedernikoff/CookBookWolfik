@@ -1,4 +1,3 @@
-
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -6,7 +5,10 @@ const initialState = {
     token: null,
     userData: null,
     error: null,
-    posts: []
+    posts: [],
+    search: [],
+    favorite: {},
+    searchResult:'',
 };
 
 const userSlice = createSlice({
@@ -45,10 +47,18 @@ const userSlice = createSlice({
         },
         sortPosts(state, action) {
             state.posts = action.payload.posts;
+            state.search = action.payload.search;
+        },
+        searchRecipes(state, action) {
+            state.search = action.payload.search;
+            state.searchResult = action.payload.searchResult;
+        },
+        setFavorite(state, action) {
+            state.favorite = action.payload.favorite;
         }
     },
 });
 
-export const { setUser, removeUser, logOutUser, errorNull, errorFail, getPosts, sortPosts } = userSlice.actions;
+export const { setUser, removeUser, logOutUser, errorNull, errorFail, getPosts, sortPosts, searchRecipes, setFavorite } = userSlice.actions;
 
 export default userSlice.reducer;

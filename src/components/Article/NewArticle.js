@@ -1,34 +1,27 @@
 import { Form, Input, Button, Select, } from 'antd';
-import React, { useEffect, useState } from 'react';
 
 import classes from './NewArticle.module.scss';
 
-function NewArticle({ title, transferData, articleTitle, description, articleBody, ingredients }) {
+function NewArticle({ transferData, title }) {
 
     const newFilds = [
         {
             name: ['title'],
-            value: articleTitle || null,
+            value:  null,
         },
         {
             name: ['description'],
-            value: description || null,
+            value: null,
         },
         {
             name: ['body'],
-            value: articleBody || null,
+            value:  null,
         },
         {
             name: ['ingredients'],
-            value: ingredients && ingredients.length ? ingredients : [''],
+            value: ['']
         },
     ];
-
-    const [fields, setFields] = useState(newFilds);
-
-    useEffect(() => {
-        setFields(newFilds);
-    }, [title, description, articleTitle, articleBody, ingredients]);
 
     return (
         <div className={classes['list__wrapper']}>
@@ -38,7 +31,7 @@ function NewArticle({ title, transferData, articleTitle, description, articleBod
                 size="large"
                 className={classes['ant-form-article']}
                 onFinish={transferData}
-                fields={fields}
+                fields={newFilds}
             >
                 <div className={classes['form-title']}>
                     <span>{title}</span>

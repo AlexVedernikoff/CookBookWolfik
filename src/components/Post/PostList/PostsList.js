@@ -1,9 +1,7 @@
-/* eslint-disable no-unused-vars */
 import { Alert } from 'antd';
 import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import { collection, getDocs } from 'firebase/firestore';
-import { v4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { db } from '../../../firebase';
@@ -13,7 +11,6 @@ import { getPosts } from '../../../store/userSlice';
 import classes from './PostList.module.scss';
 
 export const PostsList = () => {
-    let elId = '';
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
 
@@ -21,9 +18,8 @@ export const PostsList = () => {
         const stateUserst = useSelector((state) => state.user);
         return stateUserst;
     };
-    const { posts } = useStateUser();
+    const { posts, search, searchResult } = useStateUser();
     const dispath = useDispatch();
-
     useEffect(() => {
         postsUpdate();
     }, []);
@@ -41,7 +37,6 @@ export const PostsList = () => {
             dispath(getPosts({
                 posts: postsArray
             }));
-
             setLoading(false);
         } catch (e) {
             console.log(e, 'ERROR');
@@ -49,12 +44,16 @@ export const PostsList = () => {
             setLoading(false);
         }
     };
+    let result = search && search.length ? search : posts;
+    if (searchResult) {
+        result = [];
+    }
 
-    const postlist = posts &&(
+    const postlist = posts && (
         <>
-            {posts.map((el) => (
+            {result.map((el) => (
                 < >
-                    <PostItem post={el}  key = {el.elId}/>
+                    <PostItem post={el} key={el.elId} />
                 </>
             ))}
         </>
@@ -76,6 +75,13 @@ export const PostsList = () => {
                 ) : (
                     postlist
                 )}
+                {searchResult ? (
+                    <Alert
+                        className="alert"
+                        message={searchResult}
+                        showIcon
+                    />
+                ) : null}
             </div>
         </>
     );

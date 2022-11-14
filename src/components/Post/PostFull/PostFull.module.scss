@@ -25,13 +25,14 @@ img {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    word-break: break-all;
 }
 
 .title {
     position: relative;
 }
 
-.ingredients {
+.ingredients, .process {
     display: flex;
     padding: 15px;
     text-align: left;
@@ -45,35 +46,13 @@ img {
     padding-top: 20px;
 }
 
-.ingredients-left {
+.ingredients-left, .process-left {
     width: 150px;
     padding: 15px;
     text-align: left;
 }
 
-.ingredients-right {
-    width: 60%;
-    flex-grow: 2;
-    padding: 15px;
-    text-align: left;
-}
-
-.process {
-    display: flex;
-    padding: 15px;
-    text-align: left;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding-top: 0px;
-}
-
-.process-left {
-    width: 150px;
-    padding: 15px;
-    text-align: left;
-}
-
-.process-right {
+.ingredients-right, .process-right {
     width: 60%;
     flex-grow: 2;
     padding: 15px;

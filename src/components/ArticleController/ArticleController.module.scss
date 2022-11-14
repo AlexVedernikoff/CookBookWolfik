@@ -10,19 +10,15 @@
 
     .controller-button__edit {
         border: 1px solid #52C41A;
-        ;
         box-sizing: border-box;
         border-radius: 5px;
         outline: none;
         background: none;
         cursor: pointer;
-
+        word-break: initial;
         padding: 6px 19px;
-
         color: #52C41A;
-
         margin-left: 12px;
-
         &:hover {
             font-weight: 500;
         }

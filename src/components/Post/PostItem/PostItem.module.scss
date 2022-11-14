@@ -35,34 +35,18 @@
 
  .recipeCard__header {
      display: flex;
+     word-break: break-all;
      justify-content: space-between;
      font-weight: 600;
      font-size: 20px;
      padding-bottom: 7px;
  }
 
- .recipeCard__rating {
-     display: flex;
-     justify-content: center;
-     flex-shrink: 0;
-     font-size: 12px;
-     width: 32px;
-     height: 32px;
-     border: 2px solid #e9d100;
-     border-radius: 16px;
-     box-sizing: border-box;
-     margin-left: 25px;
- }
-
- .recipeCard__date {
-     font-weight: normal;
-     font-size: 12px;
-     color: #827e7e;
- }
 
  .recipeCard__description {
      height: 30%;
      overflow: hidden;
+     word-break: break-all;
      text-overflow: ellipsis;
      overflow-wrap: break-word;
      display: -webkit-box;

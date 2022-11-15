@@ -8,7 +8,11 @@ const initialState = {
     posts: [],
     search: [],
     favoritesArray: {},
-    searchResult:'',
+    searchResult: '',
+    filters: {
+        lite: true,
+        hard: true
+    }
 };
 
 const userSlice = createSlice({
@@ -55,10 +59,13 @@ const userSlice = createSlice({
         },
         setFavorite(state, action) {
             state.favoritesArray = action.payload.favoritesArray;
+        },
+        setFilters(state, action) {
+            state.filters = action.payload.filters;
         }
     },
 });
 
-export const { setUser, removeUser, logOutUser, errorNull, errorFail, getPosts, sortPosts, searchRecipes, setFavorite } = userSlice.actions;
+export const { setUser, removeUser, logOutUser, errorNull, errorFail, getPosts, sortPosts, searchRecipes, setFavorite, setFilters } = userSlice.actions;
 
 export default userSlice.reducer;

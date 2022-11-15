@@ -20,8 +20,8 @@ export const PostsList = () => {
         const stateUserst = useSelector((state) => state.user);
         return stateUserst;
     };
-    
-    const { posts, search, searchResult } = useStateUser();
+
+    const { posts, search, searchResult, filters } = useStateUser();
     const dispath = useDispatch();
 
     useEffect(() => {
@@ -62,9 +62,21 @@ export const PostsList = () => {
     if (searchResult) {
         result = [];
     }
+    let filteredResult = result.filter((el) => {
+
+        if (filters.hard && el.difficulty == 'Сложный') {
+            return true;
+        } else if (filters.lite && el.difficulty == 'Легкий') {
+            return true;
+        } else if (filters.lite && filters.hard) {
+            return true;
+        } else {
+            return false;
+        }
+    });
 
     const postlist = posts && (
-        result.map((el) => (
+        filteredResult.map((el) => (
             <PostItem post={el} key={el.elId} />
         ))
     );
@@ -85,10 +97,10 @@ export const PostsList = () => {
                 ) : (
                     postlist
                 )}
-                {searchResult ? (
+                {!loading && (searchResult || !filteredResult.length) ? (
                     <Alert
                         className="alert"
-                        message={searchResult}
+                        message={'Совпадений не найдено!'}
                         showIcon
                     />
                 ) : null}

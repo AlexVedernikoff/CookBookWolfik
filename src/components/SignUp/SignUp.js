@@ -9,6 +9,7 @@ import { setUser, errorFail, errorNull } from '../../store/userSlice';
 import FormSignUp from './FormSignUp';
 
 function SignUp() {
+    
     const useStateUser = () => {
         const stateUserst = useSelector((state) => state.user);
         return stateUserst;

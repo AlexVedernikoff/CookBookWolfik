@@ -7,6 +7,7 @@ import { SuccessMessage } from '../SuccessMessage/SuccessMessage';
 import NewArticle from './NewArticle';
 
 function CreateArticle() {
+    
     const [isSuccessAlert, setSuccessAlert] = useState(false);
 
     const createArticle = async (val) => {

@@ -5,6 +5,7 @@ import { logOutUser } from '../../store/userSlice';
 import photo from '../../img/photo.png';
 
 function LoggedIn() {
+    
     const dispath = useDispatch();
 
     const logOut = () => {
@@ -12,7 +13,7 @@ function LoggedIn() {
     };
 
     return (
-        <div className='header_btn'>
+        <div className='header__btn'>
             <Link to="/new-article">
                 <button type="button" className='user-data__button'>
                     Create recipe

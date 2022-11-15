@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Alert } from 'antd';
+import { Alert, Tag } from 'antd';
 import { TailSpin } from 'react-loader-spinner';
 
 import { ArticleController } from '../../ArticleController/ArticleController';
@@ -12,6 +12,7 @@ export const PostFull = ({ itemId }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [controllerShow, setControllerShow] = useState(false);
+    
     const useStateUser = () => {
         const stateUserst = useSelector((state) => state.user);
         return stateUserst;
@@ -38,6 +39,12 @@ export const PostFull = ({ itemId }) => {
     const receiptCard = posts.filter((el) => {
         return el.elId == itemId.id;
     })[0];
+    const ingredientsList = receiptCard.ingredients.map((el, i) => (
+        <Tag className="post_tag" key={i}>
+            {' '}
+            {el}{' '}
+        </Tag>
+    ));
 
     return (
         <div className={classes['wrapper']}>
@@ -52,7 +59,7 @@ export const PostFull = ({ itemId }) => {
             {!loading ? (
                 <>
                     <div className={classes['image-container']}>
-                        <img src={receiptCard.image} alt="" />
+                        <img src={receiptCard.image} alt="photo of the dish" />
                     </div>
 
                     <div className={classes['text-container']}>
@@ -70,14 +77,14 @@ export const PostFull = ({ itemId }) => {
                         <div className={classes['ingredients']}>
                             <div className={classes['ingredients-left']}>ингредиенты</div>
                             <div className={classes['ingredients-right']}>
-                                {receiptCard.ingredients}
+                                {ingredientsList}
                             </div>
                         </div>
-                        <div className={classes['ingredients']}>
-                            <div className={classes['ingredients-left']}>
+                        <div className={classes['process']}>
+                            <div className={classes['process-left']}>
                                 процесс приготовления
                             </div>
-                            <div className={classes['ingredients-right']}>
+                            <div className={classes['process-right']}>
                                 {receiptCard.body}
                             </div>
                         </div>

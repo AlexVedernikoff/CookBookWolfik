@@ -13,6 +13,7 @@ import likeic from '../../../img/like.svg';
 import classes from './PostItem.module.scss';
 
 export const PostItem = ({ post }) => {
+    
     const {
         name,
         description,
@@ -71,7 +72,6 @@ export const PostItem = ({ post }) => {
 
     const onlikeClick = async () => {
         if (!like) {
-            console.log('Читаем объект с лайками из cтейта: ', NewfavoritesArray);
 
             if (NewfavoritesArray[elId][email]) {
                 NewfavoritesArray[elId][email] = !NewfavoritesArray[elId][email];

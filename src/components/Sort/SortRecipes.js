@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { sortPosts } from '../../store/userSlice';
 
 import classes from './SortRecipes.module.scss';
+
 const SortRecipes = () => {
 
     const useStateUser = () => {
@@ -13,6 +14,7 @@ const SortRecipes = () => {
     const dispatch = useDispatch();
 
     const onSortName = () => {
+
         if (search && search.length > 0) {
             dispatch(sortPosts({
                 search: [...search].sort((prev, next) => {
@@ -29,7 +31,6 @@ const SortRecipes = () => {
                 })
             }));
         }
-
     };
 
     const onSortPopular = () => {
@@ -44,8 +45,8 @@ const SortRecipes = () => {
                 search: search,
             }));
         }
-
     };
+
     return (
         <div className={classes['container']}>
             <button className={classes['sorts']} onClick={onSortName} >

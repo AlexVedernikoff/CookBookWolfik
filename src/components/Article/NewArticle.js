@@ -7,7 +7,7 @@ function NewArticle({ transferData, title }) {
     const newFilds = [
         {
             name: ['title'],
-            value:  null,
+            value: null,
         },
         {
             name: ['description'],
@@ -15,7 +15,7 @@ function NewArticle({ transferData, title }) {
         },
         {
             name: ['body'],
-            value:  null,
+            value: null,
         },
         {
             name: ['ingredients'],

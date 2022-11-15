@@ -7,6 +7,7 @@ import { SuccessMessage } from '../SuccessMessage/SuccessMessage';
 import { db } from '../../firebase';
 
 function EditArticle() {
+    
     const [isSuccessAlert, setSuccessAlert] = useState(false);
     const id = useParams();
 

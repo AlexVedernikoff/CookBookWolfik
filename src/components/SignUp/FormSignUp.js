@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import classes from './FormSignUp.module.scss';
 
 function FormSignUp({ userRegistration }) {
+    
     return (
         <div className='form-sign'>
             <Form

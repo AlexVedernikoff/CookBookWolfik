@@ -11,11 +11,8 @@ const ArticleController = ({ controllerFlag }) => {
         const stateUserst = useSelector((state) => state.user);
         return stateUserst;
     };
-
     const { userData } = useStateUser();
-
     const { id } = useParams();
-
     const paramSlug = `/articles/${id}/edit`;
 
     const controler =

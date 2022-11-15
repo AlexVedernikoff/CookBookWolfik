@@ -4,7 +4,7 @@ import { TailSpin } from 'react-loader-spinner';
 import { collection, getDocs } from 'firebase/firestore';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setFavorite , getPosts } from '../../../store/userSlice';
+import { setFavorite, getPosts } from '../../../store/userSlice';
 import { db } from '../../../firebase';
 import { PostItem } from '../PostItem/PostItem';
 
@@ -12,6 +12,7 @@ import { PostItem } from '../PostItem/PostItem';
 import classes from './PostList.module.scss';
 
 export const PostsList = () => {
+
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
 
@@ -19,8 +20,8 @@ export const PostsList = () => {
         const stateUserst = useSelector((state) => state.user);
         return stateUserst;
     };
+    
     const { posts, search, searchResult } = useStateUser();
-
     const dispath = useDispatch();
 
     useEffect(() => {
@@ -52,7 +53,6 @@ export const PostsList = () => {
 
             setLoading(false);
         } catch (e) {
-            console.log(e, 'ERROR');
             setError(true);
             setLoading(false);
         }

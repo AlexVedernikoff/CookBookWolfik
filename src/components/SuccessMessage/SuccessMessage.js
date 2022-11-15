@@ -1,6 +1,7 @@
 import { Alert } from 'antd';
 
 const SuccessMessage = ({ description, closingAlert, closable }) => {
+    
     return (
         <div >
             <Alert

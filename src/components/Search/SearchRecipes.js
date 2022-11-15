@@ -4,8 +4,6 @@ import _debounce from 'lodash.debounce';
 
 import { searchRecipes } from '../../store/userSlice';
 
-import classes from './SearchRecipes.module.scss';
-
 const SearchRecipes = () => {
     const useStateUser = () => {
         const stateUserst = useSelector((state) => state.user);
@@ -15,33 +13,38 @@ const SearchRecipes = () => {
     const dispatch = useDispatch();
 
     const onChangeHandler = (e) => {
-        const query = e.target.value;
 
-        let check = [];
+        const query = e.target.value;
+        let arrSearch = [];
+
         for (let item of posts) {
-            if (query && item.name.includes(query)) {
-                dispatch(searchRecipes({
-                    search: [...posts].filter(el => el.name.includes(item.name)),
-                }));
+            if (query && item.name.toLowerCase().includes(query)
+                || item.difficulty.toLowerCase().includes(query)
+                || item.ingredients.includes(query)) {
+                arrSearch.push(item);
             } else if (!query) {
                 dispatch(searchRecipes({
                     search: [],
                 }));
-            } else if (item.name.includes(query) === false) {
-                check.push(false);
+                return;
             }
-            if (check.length === posts.length) {
-                dispatch(searchRecipes({
-                    search: [],
-                    searchResult: 'Совпадений не найдено',
-                }));
-            }
+        }
+
+        if (!arrSearch.length) {
+            dispatch(searchRecipes({
+                search: [],
+                searchResult: 'Совпадений не найдено',
+            }));
+        } else {
+            dispatch(searchRecipes({
+                search: arrSearch,
+            }));
         }
     };
 
     return (
         <>
-            <Input placeholder="Type to search" className={classes['search']} onChange={_debounce(onChangeHandler, 500)} />;
+            <Input placeholder="Type to search" onChange={_debounce(onChangeHandler, 500)} />;
         </>
     );
 

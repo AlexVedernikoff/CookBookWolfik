@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import EditArticle from '../Article/EditArticle';
 import { PostFull } from '../Post/PostFull/PostFull';
@@ -14,19 +14,28 @@ import Header from '../Header/Header';
 import { baseRoute, articleRoute, signInRoute, signUpRoute, newArticleRoute, idRoute, editRoute } from '../../constants';
 import CreateArticle from '../Article/CreateArticle';
 import SortRecipes from '../Sort/SortRecipes';
+import { searchRecipes } from '../../store/userSlice';
 
 function App() {
+
     const useStateUser = () => {
         const stateUserst = useSelector((state) => state.user);
         return stateUserst;
     };
     const { userData } = useStateUser();
+    const dispatch = useDispatch();
+    const resetSearch = () => {
+        dispatch(searchRecipes({
+            search: [],
+            searchResult: ''
+        }));
+    };
 
     return (
         <Router>
             <div className="app">
                 <header className="app_header">
-                    <Link to='/' className='header_name'> CookBook </Link>
+                    <Link to='/' onClick={resetSearch} className='header_name'> CookBook </Link>
                     <Header />
                 </header>
                 <main className='app_main'>

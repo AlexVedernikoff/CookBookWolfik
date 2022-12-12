@@ -20,7 +20,8 @@ function SignIn() {
                     token: user.accessToken,
                 }));
             })
-            .catch(() => {
+            .catch((e) => {
+                console.log(e);
                 dispath(errorFail());
             });
     };
